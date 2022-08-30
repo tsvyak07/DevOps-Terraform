@@ -13,17 +13,17 @@ provider "docker" {
 
 }
 
-resource "docker_container" "foo" {
-  image = docker_image.nginx.latest
-   name  = "nginx"
-   ports {
-    internal = 80
-    external = 80
+resource "docker_container" "tomcat" {
+  image = docker_image.tomcat.latest
+  name  = "tomcat"
+  ports {
+    internal = 8080
+    external = 6060
 
-   }
+  }
 }
 
 # Find the latest Nginx precise image.
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
+resource "docker_image" "tomcat" {
+  name = "tomcat:9-alpine"
 }
