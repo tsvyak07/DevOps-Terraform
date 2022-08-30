@@ -16,11 +16,9 @@ resource "aws_instance" "web" {
   ami           = "ami-0c9354388bb36c088"
   instance_type = "t2.micro"
   key_name = "testawssrv"
-  security_groups = ["sg-090d33fde578e6e1f"]
+  security_groups = ["launch-wizard-1"]
 
   tags = {
     Name = "terraform-example"
   }
 }
-
-
