@@ -13,16 +13,17 @@ provider "docker" {
 
 }
 
-resource "docker_container" "nginx" {
-  name  = "nginx-test"
+resource "docker_container" "foo" {
   image = docker_image.nginx.latest
-  ports {
+   name  = "foo"
+   ports {
     internal = 80
     external = 80
-  }
+
+   }
 }
 
 # Find the latest Nginx precise image.
-resource "docker_image" "ubuntu" {
+resource "docker_image" "nginx" {
   name = "nginx:latest"
 }
