@@ -38,6 +38,11 @@ resource "aws_instance" "tomcat" {
   }
 }
 
+provisioner "file" {
+  source      = "boxfuse-sample-java-war-hello/target/"
+  destination = "/var/lib/tomcat/webapps"
+}
+
 
 provider "docker" {
   host = "unix:///var/run/docker.sock"
