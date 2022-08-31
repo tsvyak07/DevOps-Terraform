@@ -1,10 +1,6 @@
 terraform {
   required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "2.20.2"
-    }
-    aws = {
+      aws = {
       source = "hashicorp/aws"
       version = "4.28.0"
     }
@@ -20,7 +16,18 @@ resource "aws_instance" "maven" {
   key_name = "testawssrv"
   security_groups = ["launch-wizard-1"]
   user_data = "${file("install_app.sh")}"
+  connection {
+    type     = "ssh"
+    host     =  self.public_ip
+    user     = "ubuntu"
+    private_key = "${file("Terraform.pem")}"
 
+  }
+  provisioner "file" {
+    source      = "boxfuse-sample-java-war-hello/target/"
+    destination = "/home/"
+
+  }
   tags = {
     Name = "MavenBuilder"
   }
@@ -35,7 +42,17 @@ resource "aws_instance" "tomcat" {
   key_name = "testawssrv"
   security_groups = ["launch-wizard-1"]
   user_data = "${file("install_app2.sh")}"
+  connection {
+    type     = "ssh"
+    host     =  self.public_ip
+    user     = "ubuntu"
+    private_key = "${file("Terraform.pem")}"
+  }
+  provisioner "file" {
+    source      = "/home/"
+    destination = "/var/lib/tomcat/webapps"
 
+  }
   tags = {
     Name = "TomcatWeb"
   }
@@ -44,10 +61,9 @@ resource "aws_instance" "tomcat" {
   }
 }
 
-provisioner "file" {
-  source      = "boxfuse-sample-java-war-hello/target/"
-  destination = "/var/lib/tomcat/webapps"
-}
+
+
+
 
 << ---!
 provider "docker" {
