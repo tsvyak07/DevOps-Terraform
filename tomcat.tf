@@ -10,7 +10,6 @@ terraform {
 provider "docker" {
   # Configuration options
   host    = "unix:///var/run/docker.sock"
-
 }
 
 resource "docker_container" "tomcat" {
