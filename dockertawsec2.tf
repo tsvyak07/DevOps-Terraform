@@ -24,6 +24,9 @@ resource "aws_instance" "maven" {
   tags = {
     Name = "MavenBuilder"
   }
+  root_block_device {
+    volume_size         = 15
+  }
 }
 
 resource "aws_instance" "tomcat" {
@@ -36,6 +39,9 @@ resource "aws_instance" "tomcat" {
   tags = {
     Name = "TomcatWeb"
   }
+  root_block_device {
+    volume_size         = 15
+  }
 }
 
 provisioner "file" {
@@ -43,7 +49,7 @@ provisioner "file" {
   destination = "/var/lib/tomcat/webapps"
 }
 
-
+<< ---!
 provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
@@ -68,4 +74,4 @@ resource "docker_image" "tomcat" {
   name = "tomcat:9-alpine"
 }
 
-
+-->>
