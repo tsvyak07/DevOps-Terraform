@@ -61,33 +61,3 @@ resource "aws_instance" "tomcat" {
   }
 }
 
-
-
-
-
-<< ---!
-provider "docker" {
-  host = "unix:///var/run/docker.sock"
-}
-
-resource "docker_container" "tomcat" {
-  image = docker_image.tomcat.latest
-  name  = "tomcat"
-  ports {
-    internal = 8080
-    external = 9999
-
-  }
-}
-resource "docker_container" "maven" {
-  image = docker_image.maven.latest
-  name  = "maven"
-}
-resource "docker_image" "maven" {
-  name = "maven:3.8.6-jdk-11"
-}
-resource "docker_image" "tomcat" {
-  name = "tomcat:9-alpine"
-}
-
--->>
